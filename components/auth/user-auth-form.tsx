@@ -1,25 +1,23 @@
 "use client"
 
 import * as React from "react"
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "@/constants"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
-
-import { Button } from "../ui/button"
-import { Input } from "../ui/input"
-import { Label } from "../ui/label"
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -61,7 +59,7 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="name@example.com" {...field} />
+                      <Input placeholder="antoine@example.com" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -81,7 +79,7 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
             </div>
             <Button disabled={isLoading}>
               {isLoading && (
-                <Icons.spinner className="w-4 h-4 mr-2 animate-spin" />
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
               Sign In
             </Button>
@@ -92,18 +90,23 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="px-2 bg-background text-muted-foreground">
+            <span className="bg-background px-2 text-muted-foreground">
               Or continue with
             </span>
           </div>
         </div>
-        <Button variant="outline" type="button" disabled={isLoading}>
+        <Button
+          variant="outline"
+          type="button"
+          disabled={isLoading}
+          onClick={() => signIn("google")}
+        >
           {isLoading ? (
-            <Icons.spinner className="w-4 h-4 mr-2 animate-spin" />
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : (
-            <Icons.gitHub className="w-4 h-4 mr-2" />
-          )}{" "}
-          Github
+            <Icons.google className="mr-2 h-4 w-4" />
+          )}
+          Google
         </Button>
       </div>
     </Form>
