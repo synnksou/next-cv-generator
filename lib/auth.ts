@@ -14,6 +14,7 @@ export const authOptions: NextAuthOptions = {
   secret: NEXTAUTH_SECRET,
   callbacks: {
     async redirect({ baseUrl }) {
+      // next add recirection on private pages / projects cv
       return baseUrl
     },
   },
